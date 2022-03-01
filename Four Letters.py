@@ -25,27 +25,39 @@ finished = False
 print("Now pass to a friend, lover, or literate af pet.")
 print("-" * 50)
 
-# 
+# Loop to allow player 2 to guess the word
 while True:
-    right = wrong = 0
     while True:
-        #Get a guess from player 2
+        # Get a guess from player 2 and make it a lowercase list
         guess = list(input("Guess a %s-letter word: " %(length)).lower())
+        # Make sure the guess is the same length as the word
         if (len(guess) == length):
             break
         elif (not len(guess) == length):
             print("That word isn't the right length!")
 
-    #Increment *right* for letters in the right spot
+    # Set up disposable variables to check the guess
+    right = wrong = 0
+    tempGuess = guess.copy()
+    tempWord = word.copy()
+    # print("After Guess: " + str(right) + ' ' + str(wrong) + ' ' + str(tempGuess) + ' ' + str(tempWord)) #Debug
+
+    # Increment *right* for letters in the right spot
     for i in range(length):
-        if word[i] == guess[i]:
+        if tempGuess[i] == tempWord[i]:
             right += 1
+            tempGuess[i] = '@'
+            tempWord[i] = '#'
+    # print("After Right Check: " + str(right) + ' ' + str(wrong) + ' ' + str(tempGuess) + ' ' + str(tempWord)) #Debug
 
-    #TODO: Increment *wrong* for letters in the wrong spot
-    # for i in range(length):
-    #     if word[i] == guess[i]:
-    #         right += 1
-
+    # Increment *wrong* for letters in the wrong spot
+    for i in range(length):
+        if (tempGuess[i] in tempWord):
+            wrong += 1
+            tempWord[tempWord.index(tempGuess[i])] = '#'
+            tempGuess[i] = '@'
+    # print("After Wrong Check: " + str(right) + ' ' + str(wrong) + ' ' + str(tempGuess) + ' ' + str(tempWord)) #Debug
+        
     #Show player feedback
     print("Letters in the right spot: " + str(right))
     print("Letters in the wrong spot: " + str(wrong))
